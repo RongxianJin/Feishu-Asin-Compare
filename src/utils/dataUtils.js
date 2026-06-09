@@ -31,7 +31,10 @@ function parsePct(v) {
 }
 function parseNum(v) {
   if (v == null) return null;
-  const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/,/g, ''));
+  if (typeof v === 'number') return v;
+  // Strip currency symbols (Mex$, $, ¥, €, R$, etc.), keep digits / dot / minus / comma
+  const cleaned = String(v).replace(/[^\d.,-]/g, '').replace(/,/g, '');
+  const n = parseFloat(cleaned);
   return isNaN(n) ? null : n;
 }
 function parseRank(v) {
